@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+      function read(id) {
+        return document.getElementById(id).value.replace(/\n/g, " ").split(" ").filter(x => x.length != 0);
+      }
+
+      function check(event) {
+        // Read vertex cover and graph.
+        let vc = read("vc");
+        let graph = read("graph");
+
+        // Remove number of vertices from vertex cover.
+        vc.shift();
+
+        // Remove p, td, #vertices and #edges from graph.
+        graph.shift();
+        graph.shift();
+        graph.shift();
+        graph.shift();
+
+        // Set with all covered vertices.
+        let cover = new Set();
+        for (v of vc) cover.add(v);
+
+        // Check if at least one endpoint per edge is covered.
+        var valid = true;
+        for (var i = 0; i < graph.length; i += 2) {
+          if (!cover.has(graph[i]) && !cover.has(graph[i + 1])) {
+            valid = false;
+            break;
+          }
+        }
+
+        if (valid) console.log("valid");
+        else console.log("invalid");
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Checker</h1>
+    <form action="javascript:void(0);">
+      L&ouml;sung (Knoten, 1-indiziert):
+      <br>
+      <textarea id="vc" rows="8" cols="40"></textarea>
+      <br>
+      Instanz:
+      <br>
+      <textarea id="graph" rows="8" cols="40"></textarea>
+      <br>
+      <input type="button" value="Check" onclick="check()">
+    </form>
+  </body>
+</html>
